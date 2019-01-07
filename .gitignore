@@ -68,3 +68,4 @@ util/Win_Check_Output.txt
 secrets.tar
 id_rsa_*
 /.vs
+keyboards/lily58/keymaps/arisa/.vscode/settings.json

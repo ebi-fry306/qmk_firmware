@@ -28,6 +28,7 @@ enum custom_keycodes {
   LOWER,
   RAISE,
   ADJUST,
+  M_HNZEN_TGL,
 };
 
 
@@ -41,9 +42,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |LCTRL |   A  |   O  |   E  |   I  |   U  |-------.    ,-------|   G  |   T  |   K  |   S  |   N  |  '   |
  * |------+------+------+------+------+------|   [   |    |    ]  |------+------+------+------+------+------|
- * |LShift|   Z  |   X  |   C  |   V  |   F  |-------|    |-------|   B  |   H  |   J  |   L  |   /  |RShift|
+ * |LShift|   Z  |   X  |   C  |   V  |   F  |-------|    |-------|   B  |   H  |   J  |   L  |   /  | HNZN |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   | LAlt | LGUI |LOWER | /Space  /       \Enter \  |RAISE |BackSP| RGUI |
+ *                   | LAlt | LGUI |LOWER | /Space  /       \Enter \  |RAISE |BackSP|DELETE|
  *                   |      |      |      |/       /         \      \ |      |      |      |
  *                   `----------------------------'           '------''--------------------'
  */
@@ -52,8 +53,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_GRV, \
   KC_TAB,   KC_Q,   KC_W,    KC_COMM, KC_DOT,  KC_SCLN,                  KC_M,    KC_R,    KC_D,    KC_Y,    KC_P,    KC_MINS, \
   KC_LCTRL, KC_A,   KC_O,    KC_E,    KC_I,    KC_U,                     KC_G,    KC_T,    KC_K,    KC_S,    KC_N,    KC_QUOT, \
-  KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_F, KC_LBRC,  KC_RBRC,  KC_B,    KC_H,    KC_J,    KC_L, KC_SLSH,    KC_RSFT, \
-                             KC_LALT, KC_LGUI,LOWER, KC_SPC,   KC_ENT,   RAISE,   KC_BSPC, KC_RGUI \
+  KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_F, KC_LBRC,  KC_RBRC,  KC_B,    KC_H,    KC_J,    KC_L, KC_SLSH,    M_HNZEN_TGL, \
+                             KC_LALT, KC_LGUI,LOWER, KC_SPC,   KC_ENT,   RAISE,   KC_BSPC, KC_DEL \
 ),
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -230,6 +231,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           layer_on(_ADJUST);
         } else {
           layer_off(_ADJUST);
+        }
+        return false;
+        break;
+    case M_HNZEN_TGL:
+        if (record->event.pressed) {
+          SEND_STRING(SS_LALT("`"));
         }
         return false;
         break;
